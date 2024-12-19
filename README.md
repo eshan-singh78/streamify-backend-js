@@ -1,45 +1,31 @@
-# Streamify MVP Backend:
+### Streamify - MVP (Minimum Viable Product) To-Do Checklist
 
-## Backend (Express) MVP Checklist
+#### Frontend (React):
+- [ ] Create user interface to input streaming key for YouTube.
+- [ ] Implement WebRTC video capture for live streaming.
+- [ ] Integrate WebRTC with RTMP for streaming from browser to backend.
+- [ ] Implement basic streaming control: Start and Stop stream buttons.
+- [ ] Display streaming status (active/inactive).
 
-### 1. **Setup Basic Express Server**
-- [ ] Initialize an Express server using Node.js.
-- [ ] Set up necessary middleware (e.g., `cors`, `body-parser`).
-- [ ] Create basic API routes for stream management (start, stop, etc.).
+#### Backend (Express):
+- [ ] Handle incoming WebRTC stream and convert it to RTMP.
+- [ ] Support a single YouTube streaming key.
+- [ ] Create API to accept streaming key and start stream.
+- [ ] Integrate with RTMP server (e.g., using `node-media-server` or `ffmpeg`).
+- [ ] Send the RTMP stream to YouTube using the provided key and YouTube API.
 
-### 2. **WebRTC Signaling (WebSocket or similar)**
-- [ ] Set up WebSocket server (using `ws` or `socket.io`).
-- [ ] Implement WebRTC signaling to handle the exchange of offer/answer between client and server.
-- [ ] Implement ICE candidates handling for WebRTC.
+#### YouTube Integration:
+- [ ] Allow backend to take a custom stream key from the user.
+- [ ] Enable stream video to YouTube via RTMP.
 
-### 3. **WebRTC Video/Audio Stream Handling**
-- [ ] Accept incoming WebRTC video/audio streams from the frontend.
-- [ ] Convert WebRTC media stream into RTMP-compatible format.
+#### Features:
+- [ ] Basic streaming functionality to YouTube.
+- [ ] User interface to input stream key and control streaming.
+- [ ] Basic error handling and feedback for users.
 
-### 4. **RTMP Streaming Integration**
-- [ ] Integrate an RTMP server (using `node-rtsp-stream` or `fluent-ffmpeg`).
-- [ ] Forward the stream from the WebRTC source to the RTMP server.
-- [ ] Configure RTMP server to send the stream to YouTube using the YouTube RTMP server URL.
-
-### 5. **YouTube Integration**
-- [ ] Set up YouTube API credentials for authentication.
-- [ ] Use the YouTube Live Streaming API to create a live stream (e.g., stream title, description).
-- [ ] Fetch the YouTube stream key via API.
-- [ ] Implement a process to securely pass the stream key to the RTMP server.
-- [ ] Validate the RTMP connection to ensure the stream is successfully transmitted to YouTube.
-
-### 6. **Error Handling**
-- [ ] Implement error handling for WebRTC connection failures.
-- [ ] Handle RTMP connection errors (e.g., failed connection to YouTube).
-- [ ] Provide meaningful error messages to the frontend (e.g., failed to start streaming, authentication issues).
-
-### 7. **Authentication for Streaming to YouTube**
-- [ ] Implement YouTube OAuth 2.0 authentication for stream management.
-- [ ] Securely store and manage OAuth tokens for YouTube API.
-
-### 8. **Stream Management**
-- [ ] Allow starting and stopping streams via backend API.
-- [ ] Track stream status (e.g., active, idle, error).
-- [ ] Cleanly handle stream termination (e.g., stop stream and clean up resources).
-
----
+### About the Project (MVP)
+Streamify is a live streaming platform that enables users to stream directly to YouTube using WebRTC and RTMP. The MVP version focuses on the core functionality, including:
+- A simple React frontend to allow users to input their YouTube stream key.
+- WebRTC integration for live video capture from the browser.
+- A backend in Express to handle the stream conversion to RTMP and send it to YouTube via the YouTube API.
+- Basic controls to start and stop streaming and display the stream status.
