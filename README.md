@@ -1,13 +1,13 @@
-# Streamify
+# Streamify - Backend (Javascript)
 
-Streamify is a live streaming platform that allows users to broadcast video content to YouTube using an RTMP stream. Currently, the platform streams a predefined media file to YouTube. It accepts a stream key from the user, starts the stream, and broadcasts the video. Future updates will allow stopping the stream and handling short videos.
+Streamify is a live streaming platform that allows users to broadcast video content to YouTube using an RTMP stream. Currently, the platform streams a predefined media file (`sample-02.mp4`) to YouTube. It accepts a stream key from the user, starts the stream, and broadcasts the video. Future updates will allow stopping the stream and handling short videos.
 
 ## Features
 
-- **Start Stream**: Accepts a YouTube stream key and starts broadcasting a sample video (`sample-02.mp4`) to YouTube.
-- **RTMP Integration**: Uses `ffmpeg` to send video content to YouTube via RTMP.
-- **Media Flexibility**: The current setup supports streaming a static video. Upcoming changes will support short videos.
-- **Error Handling**: Basic validation checks to ensure the stream key is provided.
+- [x] **Start Stream**: Accepts a YouTube stream key and starts broadcasting a sample video (`sample-02.mp4`) to YouTube.
+- [ ] **Stop Stream**: Allows users to stop the current stream and cease broadcasting to YouTube.
+- [ ] **Connect to Frontend**: Integration with a React frontend to provide users with an interface to input the stream key and control the stream.
+- [ ] **Process WebRTC**: Future integration for processing WebRTC streams (currently, only RTMP is supported).
 
 ## Setup
 
