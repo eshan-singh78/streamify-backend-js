@@ -1,4 +1,4 @@
-**Streamify MVP Backend**:
+# Streamify MVP Backend:
 
 ## Backend (Express) MVP Checklist
 
