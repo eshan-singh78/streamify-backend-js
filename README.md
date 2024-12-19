@@ -1,31 +1,89 @@
-### Streamify - MVP (Minimum Viable Product) To-Do Checklist
+# Streamify
 
-#### Frontend (React):
-- [ ] Create user interface to input streaming key for YouTube.
-- [ ] Implement WebRTC video capture for live streaming.
-- [ ] Integrate WebRTC with RTMP for streaming from browser to backend.
-- [ ] Implement basic streaming control: Start and Stop stream buttons.
-- [ ] Display streaming status (active/inactive).
+Streamify is a live streaming platform that allows users to broadcast video content to YouTube using an RTMP stream. Currently, the platform streams a predefined media file to YouTube. It accepts a stream key from the user, starts the stream, and broadcasts the video. Future updates will allow stopping the stream and handling short videos.
 
-#### Backend (Express):
-- [ ] Handle incoming WebRTC stream and convert it to RTMP.
-- [ ] Support a single YouTube streaming key.
-- [ ] Create API to accept streaming key and start stream.
-- [ ] Integrate with RTMP server (e.g., using `node-media-server` or `ffmpeg`).
-- [ ] Send the RTMP stream to YouTube using the provided key and YouTube API.
+## Features
 
-#### YouTube Integration:
-- [ ] Allow backend to take a custom stream key from the user.
-- [ ] Enable stream video to YouTube via RTMP.
+- **Start Stream**: Accepts a YouTube stream key and starts broadcasting a sample video (`sample-02.mp4`) to YouTube.
+- **RTMP Integration**: Uses `ffmpeg` to send video content to YouTube via RTMP.
+- **Media Flexibility**: The current setup supports streaming a static video. Upcoming changes will support short videos.
+- **Error Handling**: Basic validation checks to ensure the stream key is provided.
 
-#### Features:
-- [ ] Basic streaming functionality to YouTube.
-- [ ] User interface to input stream key and control streaming.
-- [ ] Basic error handling and feedback for users.
+## Setup
 
-### About the Project (MVP)
-Streamify is a live streaming platform that enables users to stream directly to YouTube using WebRTC and RTMP. The MVP version focuses on the core functionality, including:
-- A simple React frontend to allow users to input their YouTube stream key.
-- WebRTC integration for live video capture from the browser.
-- A backend in Express to handle the stream conversion to RTMP and send it to YouTube via the YouTube API.
-- Basic controls to start and stop streaming and display the stream status.
+1. Clone the repository and navigate to the project directory.
+2. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the server:
+   ```bash
+   node server.js
+   ```
+
+   The backend will be running on `http://localhost:5001`.
+
+## Endpoints
+
+### Start Stream
+
+Starts streaming the video to YouTube using the provided stream key.
+
+- **Endpoint**: `POST /start-stream`
+- **Request Body**:
+  ```json
+  {
+    "streamKey": "<youtubestreamkey>"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "Stream started",
+    "streamKey": "<youtubestreamkey>"
+  }
+  ```
+- **Example Request**:
+  ```bash
+  curl --location 'http://localhost:5001/start-stream' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "streamKey": "<youtubestreamkey>"
+  }'
+  ```
+
+### Stop Stream (Coming Soon)
+
+This API will stop the current stream and cease broadcasting to YouTube. 
+
+- **Endpoint**: `POST /stop-stream`
+- **Response**:
+  ```json
+  {
+    "message": "Stream stopped"
+  }
+  ```
+
+### Server
+
+The backend is set up using **Express** and **Node Media Server** (NMS). It uses **FFmpeg** to handle video streaming.
+
+## Handling Short Videos (Coming Soon)
+
+The current version of Streamify streams a static media file (`sample-02.mp4`). In the next phase, we will reconfigure the system to support short videos by:
+
+- Accepting a user-uploaded video file or a dynamically set video.
+- Streaming the video in shorter segments or looping based on the video length.
+
+## Running the Server
+
+1. Ensure `ffmpeg` is installed and accessible from your terminal. If not, install it from [here](https://ffmpeg.org/download.html).
+2. Start the server:
+   ```bash
+   node server.js
+   ```
+
+3. The server will be available at `http://localhost:5001`.
+
+---
