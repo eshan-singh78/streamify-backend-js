@@ -8,6 +8,8 @@ const port = 5001;
 
 app.use(bodyParser.json());
 
+let ffmpegProcess = null;
+
 app.get('/', (req, res) => {
   res.send('Streamify Backend is running!');
 });
@@ -20,28 +22,56 @@ app.post('/start-stream', (req, res) => {
   }
 
   console.log(`Starting stream with key: ${streamKey}`);
-  sendToYouTube(streamKey);
+  startStreamingToYouTube(streamKey);
 
   res.status(200).json({ message: 'Stream started', streamKey });
 });
 
-function sendToYouTube(streamKey) {
+app.post('/stop-stream', (req, res) => {
+  if (!ffmpegProcess) {
+    return res.status(400).json({ error: 'No active stream to stop' });
+  }
+
+  console.log('Stopping the stream...');
+  ffmpegProcess.kill('SIGINT');
+  ffmpegProcess = null;
+
+  res.status(200).json({ message: 'Stream stopped' });
+});
+
+function startStreamingToYouTube(streamKey) {
   const youtubeRtmpUrl = `rtmp://a.rtmp.youtube.com/live2/${streamKey}`;
   const videoFilePath = './sample-02.mp4';
 
   const command = `ffmpeg -re -i ${videoFilePath} -f flv ${youtubeRtmpUrl}`;
-
   console.log('Running FFmpeg command:', command);
 
-  exec(command, (err, stdout, stderr) => {
+  ffmpegProcess = exec(command, (err, stdout, stderr) => {
     if (err) {
-      console.error('Error streaming to YouTube:', err);
+      if (err.killed) {
+        console.log('FFmpeg process was killed intentionally. Stream stopped.');
+      } else {
+        console.error('Unexpected error with FFmpeg:', err);
+      }
+      ffmpegProcess = null;
       return;
     }
+
     if (stderr) {
       console.error('FFmpeg STDERR:', stderr);
     }
     console.log('FFmpeg STDOUT:', stdout);
+  });
+
+  ffmpegProcess.on('exit', (code, signal) => {
+    if (signal === 'SIGINT' || signal === 'SIGKILL') {
+      console.log('FFmpeg process stopped by user.');
+    } else if (code !== 0) {
+      console.error(`FFmpeg exited with error code: ${code}`);
+    } else {
+      console.log('FFmpeg process completed successfully.');
+    }
+    ffmpegProcess = null;
   });
 }
 
